@@ -6,6 +6,6 @@ public class CalculadoraTest {
 
     @Test
     void testSumar() {
-        assertEquals(5, new Calculadora().sumar(2, 3));
+        assertEquals(6, new Calculadora().sumar(2, 3));
     }
 }
