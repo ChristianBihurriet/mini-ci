@@ -21,3 +21,9 @@ jobs:
       
       - name: Build project
         run: ./mvnw package -DskipTests
+        
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mini-ci-jar
+          path: target/*.jar
