@@ -43,3 +43,29 @@ jobs:
         with:
           name: mini-ci-jar
           path: target/*.jar
+
+  docker-build:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download JAR artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: mini-ci-jar
+          path: target
+
+      - name: Build Docker image
+        run: docker build -t mini-ci .
+
+      - name: Save image
+        run: docker save mini-ci:latest -o mini-ci.tar
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mini-ci-image-tar
+          path: mini-ci.tar
