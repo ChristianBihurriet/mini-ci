@@ -63,20 +63,14 @@ jobs:
           path: target
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Docker image
-        run: docker build -t mini-ci .
+        run: docker build -t ghcr.io/${{ github.repository_owner }}/mini-ci:latest .
 
-      - name: Save image
-        run: docker save mini-ci:latest -o mini-ci.tar
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v7
-        with:
-          name: mini-ci-image-tar
-          path: mini-ci.tar
+      - name: Push Docker image
+        run: docker push ghcr.io/${{ github.repository_owner }}/mini-ci:latest
